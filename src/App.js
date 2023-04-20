@@ -5,55 +5,39 @@ import { useEffect, useState } from 'react';
 function App() {
   return (
     <div className="App">
-      {/* <Counter></Counter> */}
-      <ExternalUsers></ExternalUsers>
+      <Posts></Posts>
     </div>
   );
 }
-function ExternalUsers (){
-  const [users, setUsers] = useState([]);
-  // useEffect( ()=>{}, [])
+function Posts (){
+  const [posts, setPosts] = useState([]);
+  
   useEffect( ()=>{
-     fetch('https://jsonplaceholder.typicode.com/users')
-     .then(res => res.json())
-     .then(data => setUsers(data))
-    }, [])
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(res => res.json())
+    .then(data => setPosts(data))
+  }, [])
   return (
     <div>
-      <h2>External Users</h2>
-      <p>{users.length}</p>
+      <h2>All Posts</h2>
+      <p>{posts.length}</p>
       {
-        users.map(user => <User name={user.name} email={user.email}></User>)
+        posts.map(post => (
+          <div key={post.id}>
+            <h2>{post.title}</h2>
+            <p>{post.body}</p>
+            <p>ID: {post.id}</p>
+          </div>
+        ))
       }
     </div>
   )
 }
-
-function User(props){
-  return (
-    <div style={{border: '2px solid red', margin: '20px'}}>
-      <h3>Name: {props.name}</h3>
-      <p>Email: {props.email}</p>
-    </div>
-  )
-}
-
-function Counter(){
-  const [count, setCount] = useState(0);
-  const increaseCount = () =>{setCount(count + 1);}
-  const decreaseCount = () =>{setCount(count - 1);}
-
-
-  // const increaseCount = () =>{
-  //   const newCount = count + 1;
-  //   setCount(newCount);
-  // }
-  return (
-    <div>
-      <h1>Count: {count}</h1>
-      <button onClick={increaseCount}>Increase</button>
-      <button onClick={decreaseCount}>Decrease</button>
-    </div>
-  )
-}
+// function post(props){
+//   return (
+//     <div>
+//       {/* <h2>Title: {props.title}</h2> */}
+//     </div>
+//   )
+// }
 export default App;
